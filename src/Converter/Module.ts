@@ -8,7 +8,7 @@ import {Map} from "../Map";
 import {Door, GridType, Light, Lighting, Media, MediaType, Wall} from "../Types";
 
 export class Module extends Converter {
-    public readonly name: string = 'Foundry Module';
+    public readonly name: string = 'Encounter+ Module';
 
     public async import(file: File): Promise<Package> {
         let zip: JSZip;
@@ -44,15 +44,19 @@ export class Module extends Converter {
                 pack.description = this.text(module, 'module > description');
                 pack.filename = file.name;
 
-                await module.querySelectorAll('map').forEach(async (data: HTMLElement) => {
-                    const map: Map = await this.parseMap(data, zip);
+                const promises: Promise<Map>[] = [];
 
-                    pack.addMap(map);
+                module.querySelectorAll('map').forEach((data: HTMLElement) => {
+                    promises.push(
+                        this.parseMap(data, zip)
+                    )
                 });
 
-                return module;
+                return Promise.all(promises);
             })
-            .then(() => {
+            .then((maps: Map[]) => {
+                pack.maps = maps;
+
                 return pack;
             })
     }
@@ -166,8 +170,30 @@ export class Module extends Converter {
         return zip.file(imagePath)
             .async("arraybuffer")
             .then((content: ArrayBuffer) => {
+                const ext: string = imagePath.split('.').pop().toLowerCase();
+                let mime: string;
+
+                switch (ext) {
+                    case 'jpg':
+                    case 'jpeg':
+                        mime = 'image/jpeg';
+                        break;
+                    case 'png':
+                        mime = 'image/png';
+                        break;
+                    case 'webp':
+                        mime = 'image/webp';
+                        break;
+                    default:
+                        mime = 'image/jpeg';
+                        break;
+                }
+
+
                 const buffer: Uint8Array = new Uint8Array(content);
-                const blob: Blob = new Blob([buffer.buffer]);
+                const blob: Blob = new Blob([buffer.buffer], {
+                    type: mime
+                });
 
                 return new Promise((resolve: Function, reject: Function) => {
                     const img: HTMLImageElement = new Image();

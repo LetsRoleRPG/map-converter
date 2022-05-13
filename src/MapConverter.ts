@@ -52,8 +52,6 @@ export class MapConverter {
             throw new ConverterError("Unable to parse source file");
         }
 
-        console.log(pack);
-
         const converted: ConvertedFile[] = await convertTo.export(pack);
 
         if (!converted || !converted.length) {

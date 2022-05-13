@@ -1,5 +1,5 @@
 export class ConvertedFile {
     public title: string;
-    public file: File;
+    public data: Blob;
     public thumbnail?: HTMLImageElement;
 }
