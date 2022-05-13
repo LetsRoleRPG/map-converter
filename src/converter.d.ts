@@ -1,7 +1,7 @@
-import {WebApp} from "./WebApp";
+import {MapConverter} from "./MapConverter";
 
 declare global {
     interface Window {
-        converter: WebApp;
+        MapConverter: MapConverter;
     }
 }

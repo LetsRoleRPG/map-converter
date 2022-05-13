@@ -1,7 +1,8 @@
 export interface Grid {
+    enabled: boolean;
     size: number;
     type?: GridType;
-    offset: Position;
+    offset?: Position;
     color?: string; // Hex color
     opacity?: number;
 }
@@ -35,7 +36,7 @@ export interface Lighting {
 }
 
 export interface Wall {
-    id: string;
+    id?: string;
     x1: number;
     y1: number;
     x2: number;
@@ -43,7 +44,7 @@ export interface Wall {
 }
 
 export interface Light {
-    id: string;
+    id?: string;
     x: number;
     y: number;
     range?: number;
@@ -52,7 +53,7 @@ export interface Light {
 }
 
 export interface Door {
-    id: string;
+    id?: string;
     x1: number;
     y1: number;
     x2: number;

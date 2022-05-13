@@ -5,4 +5,10 @@ export class Package {
     public description?: string;
     public filename?: string;
     public maps: Map[] = [];
+
+    public addMap(map: Map): Package {
+        this.maps.push(map);
+
+        return this;
+    }
 }
