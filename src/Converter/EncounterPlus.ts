@@ -7,7 +7,7 @@ import {ConverterError} from "../ConverterError";
 import {Map} from "../Map";
 import {Door, GridType, Light, Lighting, Media, MediaType, Wall} from "../Types";
 
-export class Module extends Converter {
+export class EncounterPlus extends Converter {
     public readonly name: string = 'Encounter+ Module';
 
     public async import(file: File): Promise<Package> {
@@ -40,6 +40,7 @@ export class Module extends Converter {
                     })
             })
             .then(async (module: Document) => {
+                console.log(module);
                 pack.title = this.text(module, 'module > name');
                 pack.description = this.text(module, 'module > description');
                 pack.filename = file.name;
@@ -226,17 +227,6 @@ export class Module extends Converter {
 
                 return map;
             })
-    }
-
-    protected blobToBase64(blob: Blob): Promise<string> {
-        return new Promise((resolve: Function, reject: Function) => {
-            const reader: FileReader = new FileReader();
-
-            reader.onloadend = () => resolve(reader.result);
-            reader.onerror = () => reject();
-
-            reader.readAsDataURL(blob);
-        });
     }
 
     public async export(pack: Package): Promise<ConvertedFile[]> {

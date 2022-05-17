@@ -5,6 +5,7 @@ export class Map {
     public description?: string;
     public authors?: string[];
     public url?: string;
+    public backgroundColor?: string;
     public width: number;
     public height: number;
     public grid?: Grid;

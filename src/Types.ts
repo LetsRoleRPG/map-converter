@@ -26,6 +26,8 @@ export interface Media extends Position {
     type: MediaType;
     data: string; // Base-64 Encoded media
     filename?: string;
+    width?: number;
+    height?: number;
 }
 
 export interface Lighting {
